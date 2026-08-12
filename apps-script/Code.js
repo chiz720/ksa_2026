@@ -125,23 +125,9 @@ function getAnnouncement_() {
 
 // ── Writes ───────────────────────────────────────────────────────────────────
 
-/**
- * Append a row, forcing the final (timestamp) cell to plain text.
- *
- * Sheets auto-parses anything date-shaped: "12/08 10:47" is read as
- * 8 December, not 12 August, and comes back out of doGet as an ISO string
- * with the wrong date. Setting the cell format to "@" before writing keeps
- * the timestamp as the literal text we generated.
- */
-function appendRow_(sh, values) {
-  sh.appendRow(values);
-  const row = sh.getLastRow(), col = values.length;
-  sh.getRange(row, col).setNumberFormat('@').setValue(values[col - 1]);
-}
-
 function doPost(e) {
   const data = JSON.parse(e.postData.contents);
-  const now  = () => Utilities.formatDate(new Date(), TZ, 'dd MMM HH:mm');
+  const now  = () => Utilities.formatDate(new Date(), TZ, 'dd/MM HH:mm');
 
   if (data.action === 'resolve') {
     const sh = lfSheet_(), vals = sh.getDataRange().getValues();
@@ -153,10 +139,10 @@ function doPost(e) {
     const sh = votesSheet_(), vals = sh.getDataRange().getValues();
     const pid = String(data.poll_id), dev = String(data.device_id || '');
     const already = vals.slice(1).some(r => String(r[0]) === pid && String(r[2]) === dev);
-    if (dev && !already) appendRow_(sh, [pid, Number(data.option_index), dev, now()]);
+    if (dev && !already) sh.appendRow([pid, Number(data.option_index), dev, now()]);
 
   } else if (data.action === 'qa_submit') {
-    appendRow_(qaSheet_(), [
+    qaSheet_().appendRow([
       String(data.id || Date.now()), data.session || '', data.question || '',
       data.name || 'Anonymous', 0, now(),
     ]);
@@ -171,7 +157,7 @@ function doPost(e) {
     }
 
   } else {
-    appendRow_(lfSheet_(), [
+    lfSheet_().appendRow([
       String(data.id || Date.now()), data.type || 'lost', data.item || '',
       data.desc || '', data.loc || '', data.name || '', data.contact || '',
       false, now(),

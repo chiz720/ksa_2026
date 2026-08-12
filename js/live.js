@@ -33,6 +33,20 @@ const LIVE = (() => {
     } catch { return null; }
   };
   const stamp = () => confNow().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+
+  /* Older rows in the sheet may come back as ISO dates rather than the plain
+     text the script now writes — render either shape as "12 Aug 10:47". */
+  const fmtTs = ts => {
+    if (!ts) return '';
+    const s = String(ts);
+    if (!/^\d{4}-\d{2}-\d{2}T/.test(s)) return s;   // already plain text
+    const d = new Date(s);
+    if (isNaN(d)) return s;
+    return d.toLocaleString('en-GB', {
+      timeZone: CONF.tz, day: '2-digit', month: 'short',
+      hour: '2-digit', minute: '2-digit',
+    }).replace(',', '');
+  };
   const flash = (id, text, kind) => {
     const el = document.getElementById(id);
     if (!el) return;
@@ -87,7 +101,7 @@ const LIVE = (() => {
         <div class="qa-q">${esc(q.question)}</div>
         <div class="qa-meta">
           <span><i class="fas fa-user"></i> ${esc(q.name || 'Anonymous')}</span>
-          ${q.ts ? `<span><i class="fas fa-clock"></i> ${esc(q.ts)}</span>` : ''}
+          ${q.ts ? `<span><i class="fas fa-clock"></i> ${esc(fmtTs(q.ts))}</span>` : ''}
         </div>
       </div>`).join('');
   }
@@ -253,7 +267,7 @@ const LIVE = (() => {
           ${i.loc ? `<span><i class="fas fa-location-dot"></i> ${esc(i.loc)}</span>` : ''}
           <span><i class="fas fa-user"></i> ${esc(i.name)}</span>
           <span><i class="fas fa-phone"></i> ${esc(i.contact)}</span>
-          ${i.ts ? `<span><i class="fas fa-clock"></i> ${esc(i.ts)}</span>` : ''}
+          ${i.ts ? `<span><i class="fas fa-clock"></i> ${esc(fmtTs(i.ts))}</span>` : ''}
         </div>
         ${i.resolved ? '' : `<button class="lf-claim" onclick="LIVE.lfResolve('${esc(i.id)}')">
           ${i.type === 'lost' ? 'I found this!' : 'This is mine!'}</button>`}

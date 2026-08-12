@@ -16,4 +16,4 @@
    (this device only) — everything else on the site works normally.
    ========================================================================== */
 
-const GS_URL = '';
+const GS_URL = 'https://script.google.com/macros/s/AKfycbzPcWtVJBCneqxe6qTtpRbs2-ZewQOb8T01K3kkH0TgqCYF723wSvBArYSxCh9gDF8V/exec';
