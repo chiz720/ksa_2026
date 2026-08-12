@@ -318,16 +318,16 @@ const PROGRAM = {
       title: 'Panel Discussions', track: 'Panel Discussions',
       sessions: [
         { s: '14:15', e: '15:00', title: 'Medical-legal challenges in anaesthesia practice', speakers: ['Advocate Roy Tollo', 'Dr. Mark Gacii'], kind: 'panel' },
-        // Spreadsheet had this panel as 15:00–15:40, which ran past both the block's
-        // own "1415-1530: PANEL DISCUSSIONS" header and the 15:30 tea break, and
-        // overlapped a stray 15:15–15:30 discussion row duplicated from the
-        // two-track template used earlier in the day. Trimmed to 15:30 — the one
-        // time three separate cells agree on. Discussion is part of the panels.
-        { s: '15:00', e: '15:30', title: 'Who gets the ICU bed? Ethical decision-making in resource-limited settings', speakers: ['Dr. Idris Chikophe', 'Dr. David Odaba'], kind: 'panel' },
+        // Afternoon times confirmed by the organisers, overriding the spreadsheet's
+        // block header ("1415-1530"), its 15:15–15:30 discussion row and its
+        // 15:30 tea break: panel runs to 15:40, discussion 15:40–16:00,
+        // tea 16:00–16:30.
+        { s: '15:00', e: '15:40', title: 'Who gets the ICU bed? Ethical decision-making in resource-limited settings', speakers: ['Dr. Idris Chikophe', 'Dr. David Odaba'], kind: 'panel' },
+        { s: '15:40', e: '16:00', title: 'Discussion', speakers: [], kind: 'discussion' },
       ],
     },
 
-    { type: 'break', s: '15:30', e: '16:00', title: 'Tea Break', icon: 'fa-mug-hot' },
+    { type: 'break', s: '16:00', e: '16:30', title: 'Tea Break', icon: 'fa-mug-hot' },
     { type: 'break', s: '18:00', e: '21:00', title: 'Gala Dinner', icon: 'fa-champagne-glasses', highlight: true },
   ],
 };
