@@ -46,6 +46,24 @@ function statusOf(item) {
   if (item.e <= now) return 'past';
   return '';
 }
+
+/* Ids of the next session(s) due to start today — parallel tracks all qualify. */
+let nextIds = new Set();
+function computeNext() {
+  const date = todayISO(), now = nowHHMM();
+  const upcoming = FLAT.filter(f => f.date === date && f.kind !== 'discussion' && f.s > now);
+  if (!upcoming.length) return new Set();
+  const soonest = upcoming.reduce((m, f) => (f.s < m ? f.s : m), '99:99');
+  return new Set(upcoming.filter(f => f.s === soonest).map(f => f.id));
+}
+/* Signature of everything time-dependent on screen — re-render only on change. */
+function liveSignature() {
+  const date = todayISO(), now = nowHHMM();
+  return date + '|' + now.slice(0, 4) + '|' +
+    FLAT.filter(f => f.date === date && f.s <= now && f.e > now).map(f => f.id).join(',') +
+    '|' + [...nextIds].join(',');
+}
+const minsUntil = hhmm => Math.max(0, Math.round(msUntil(hhmm) / 60000));
 const matches = item => {
   if (!query) return true;
   const hay = (item.title + ' ' + (item.speakers || []).join(' ') + ' ' +
@@ -65,7 +83,8 @@ function sessRow(item) {
       <div class="s-main">
         <div class="s-title">${esc(item.title)}</div>
         ${speakers.length ? `<div class="s-speakers"><i class="fas fa-microphone"></i>${speakers.map(esc).join(' · ')}</div>` : ''}
-        ${st === 'live' ? '<div class="s-badges"><span class="badge-live">LIVE NOW</span></div>' : ''}
+        ${st === 'live' ? '<div class="s-badges"><span class="badge-live">LIVE NOW</span></div>'
+          : nextIds.has(item.id) ? `<div class="s-badges"><span class="badge-next">UP NEXT · in ${minsUntil(item.s)} min</span></div>` : ''}
       </div>
       ${item.kind === 'discussion' ? '' :
         `<button class="star-btn ${starred ? 'on' : ''}" data-star="${item.id}"
@@ -130,11 +149,19 @@ function renderDay(dayId) {
     html += `<div class="time-label"><span class="t">${block.s} – ${block.e}</span>${label ? '· ' + esc(label) : ''}</div>`;
 
     if (block.type === 'parallel') {
-      const cols = block.tracks.length >= 4 ? 'cols-4' : 'cols-2';
+      const n = block.tracks.length;
+      const cols = n >= 4 ? 'cols-4' : 'cols-2';
+      const isWorkshop = /workshop/i.test(block.label || '');
+      html += `<div class="swipe-hint">
+          <span class="hand-l">👈</span>
+          ${isWorkshop ? 'Swipe to browse workshops' : 'Swipe between tracks'}
+          <span class="count">${n}</span>
+          <span class="hand-r">👉</span>
+        </div>`;
       html += `<div class="track-grid ${cols}">` +
         block.tracks.map((t, gi) => trackCol(t, bi, dayId, gi)).join('') + '</div>';
     } else {
-      html += '<div class="track-grid">' + trackCol({
+      html += '<div class="track-grid single">' + trackCol({
         name: block.title, room: block.room, chairs: block.chairs,
         sessions: block.sessions, sponsor: block.sponsor,
         subtitle: block.note,
@@ -240,6 +267,12 @@ function render() {
   const toolbar = $('toolbar');
   const isProgram = DAYS.some(d => d.id === currentTab) || currentTab === 'mine' || currentTab === 'faculty';
   toolbar.classList.toggle('hidden', !isProgram);
+  nextIds = computeNext();
+
+  // Keep the reader's place in each swipe carousel across a live re-render
+  const scrolls = [...out.querySelectorAll('.track-grid')].map(g => g.scrollLeft);
+  const restore = () => [...out.querySelectorAll('.track-grid')]
+    .forEach((g, i) => { if (scrolls[i]) g.scrollLeft = scrolls[i]; });
 
   if (query && DAYS.some(d => d.id === currentTab)) { out.innerHTML = renderSearch(); return; }
 
@@ -249,7 +282,7 @@ function render() {
     case 'qa':      out.innerHTML = LIVE.renderQAPanel(); LIVE.qaInit(); break;
     case 'poll':    out.innerHTML = LIVE.renderPollPanel(); LIVE.pollInit(); break;
     case 'lost':    out.innerHTML = LIVE.renderLFPanel(); LIVE.lfInit(); break;
-    default:        out.innerHTML = renderDay(currentTab);
+    default:        out.innerHTML = renderDay(currentTab); restore();
   }
   updateStarCount();
 }
@@ -304,34 +337,67 @@ function updateNowBar() {
   document.body.style.paddingBottom = '62px';
 }
 
+/* Alerts fire on a *window*, not an exact minute match — a backgrounded tab
+   throttles timers, so "now === e-5" could be skipped entirely and the
+   reminder lost. Anything still inside its window fires on the next tick. */
 const fired = new Set();
+const FIVE_MIN = 5 * 60 * 1000;
+
 function checkAlerts() {
-  const date = todayISO(), now = nowHHMM();
+  const date = todayISO();
   FLAT.forEach(f => {
     if (f.date !== date || f.kind === 'discussion' || f.kind === 'break') return;
-    if (now === addMins(f.e, -5) && !fired.has('w' + f.id)) {
+    const toEnd   = msUntil(f.e);
+    const toStart = msUntil(f.s);
+
+    // Speaker warning — 5 minutes of session time left
+    if (toEnd > 0 && toEnd <= FIVE_MIN && !fired.has('w' + f.id)) {
       fired.add('w' + f.id);
-      toast(`⏱️ <strong>5 minutes to go</strong><br>${esc(f.title)}<br><small>${esc(f.room || '')}</small>`);
+      toast(`⏱️ <strong>5 minutes to go</strong><br>${esc(f.title)}` +
+            `<br><small>${esc([f.speakers?.join(' · '), f.room].filter(Boolean).join(' · '))}</small>`);
     }
-    if (now === f.s && !fired.has('s' + f.id) && stars.has(f.id)) {
+    // Time's up
+    if (toEnd <= 0 && toEnd > -FIVE_MIN && !fired.has('e' + f.id)) {
+      fired.add('e' + f.id);
+      toast(`🔔 <strong>Time's up</strong><br>${esc(f.title)}<br><small>${esc(f.room || '')}</small>`);
+    }
+    // Starred session about to begin
+    if (stars.has(f.id) && toStart > 0 && toStart <= FIVE_MIN && !fired.has('s' + f.id)) {
       fired.add('s' + f.id);
-      toast(`⭐ <strong>Starting now</strong><br>${esc(f.title)}<br><small>${esc(f.room || '')}</small>`);
+      toast(`⭐ <strong>Starts in ${Math.max(1, Math.round(toStart / 60000))} min</strong><br>${esc(f.title)}` +
+            `<br><small>${esc(f.room || '')}</small>`);
     }
   });
 }
 
-let toastEl = null;
+/* Parallel tracks mean two sessions can hit the same milestone at once,
+   so toasts stack instead of replacing one another. */
+const toasts = [];
 function toast(html) {
-  if (toastEl) toastEl.remove();
-  toastEl = document.createElement('div');
-  toastEl.className = 'toast';
-  toastEl.innerHTML = html;
-  document.body.appendChild(toastEl);
-  requestAnimationFrame(() => toastEl.classList.add('show'));
-  setTimeout(() => { toastEl?.classList.remove('show'); setTimeout(() => toastEl?.remove(), 400); }, 8000);
+  const el = document.createElement('div');
+  el.className = 'toast';
+  el.innerHTML = html;
+  document.body.appendChild(el);
+  toasts.push(el);
+  while (toasts.length > 3) toasts.shift()?.remove();
+  layoutToasts();
+  requestAnimationFrame(() => el.classList.add('show'));
+  setTimeout(() => {
+    el.classList.remove('show');
+    setTimeout(() => {
+      el.remove();
+      const i = toasts.indexOf(el);
+      if (i > -1) toasts.splice(i, 1);
+      layoutToasts();
+    }, 400);
+  }, 9000);
   if (typeof Notification !== 'undefined' && Notification.permission === 'granted') {
-    new Notification('KSA 2026', { body: toastEl.textContent });
+    new Notification('KSA 2026', { body: el.textContent });
   }
+}
+function layoutToasts() {
+  const base = document.body.style.paddingBottom ? 74 : 16;
+  toasts.forEach((t, i) => { t.style.bottom = (base + i * 88) + 'px'; });
 }
 
 function updateClock() {
@@ -383,8 +449,24 @@ function init() {
   updateClock(); updateNowBar(); checkAlerts();
   setInterval(updateClock, 10000);
   setInterval(updateNowBar, 1000);
-  setInterval(checkAlerts, 20000);
-  setInterval(() => { if (DAYS.some(d => d.id === currentTab)) render(); }, 60000); // refresh live highlights
+  setInterval(checkAlerts, 15000);
+
+  // Repaint LIVE / UP NEXT only when the state actually changes, so a reader
+  // mid-swipe isn't yanked back by a pointless re-render.
+  let lastSig = liveSignature();
+  setInterval(() => {
+    if (!DAYS.some(d => d.id === currentTab) || query) return;
+    nextIds = computeNext();
+    const sig = liveSignature();
+    if (sig !== lastSig) { lastSig = sig; render(); }
+  }, 15000);
+
+  // A tab returning to the foreground may have missed several ticks
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState !== 'visible') return;
+    updateClock(); updateNowBar(); checkAlerts();
+    if (DAYS.some(d => d.id === currentTab) && !query) render();
+  });
 
   if (typeof Notification !== 'undefined' && Notification.permission === 'default') {
     document.addEventListener('click', () => Notification.requestPermission(), { once: true });

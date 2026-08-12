@@ -136,11 +136,48 @@ body {
   font-variant-numeric: tabular-nums; white-space: nowrap;
 }
 
-/* ───────────────────────── Track grid ───────────────────────── */
-.track-grid { display: grid; gap: 12px; grid-template-columns: 1fr; }
+/* ───────────────────────── Track grid ─────────────────────────
+   Mobile: one full-width card per screen, swipe horizontally between tracks.
+   ≥780px: falls back to a side-by-side grid.                                */
+.track-grid {
+  display: flex; gap: 12px;
+  overflow-x: auto; overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  margin: 0 -14px; padding: 0 14px 10px;
+}
+.track-grid::-webkit-scrollbar { display: none; }
+.track-grid > .track {
+  flex: 0 0 88vw; max-width: 440px; scroll-snap-align: center;
+}
+/* Single-track blocks (plenaries, ceremonies) fill the width instead */
+.track-grid.single > .track { flex: 0 0 100%; max-width: none; scroll-snap-align: start; }
+
+/* ── Swipe hint ── */
+.swipe-hint {
+  display: flex; align-items: center; gap: 7px; justify-content: center;
+  font-size: .76rem; font-weight: 700; color: var(--day);
+  padding: 2px 2px 8px;
+}
+.swipe-hint .hand-l, .swipe-hint .hand-r { font-size: 1.15rem; display: inline-block; }
+.swipe-hint .hand-l { animation: nudge-l 1.4s ease-in-out infinite; }
+.swipe-hint .hand-r { animation: nudge-r 1.4s ease-in-out infinite; }
+@keyframes nudge-l { 0%,100% { transform: translateX(0) } 50% { transform: translateX(-6px) } }
+@keyframes nudge-r { 0%,100% { transform: translateX(0) } 50% { transform: translateX( 6px) } }
+.swipe-hint .count {
+  background: color-mix(in srgb, var(--day) 12%, #fff); color: var(--day);
+  border-radius: 20px; padding: 1px 8px; font-size: .68rem; font-weight: 800;
+}
+
 @media (min-width: 780px) {
-  .track-grid.cols-2 { grid-template-columns: 1fr 1fr; }
+  .track-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    overflow: visible; margin: 0; padding: 0;
+  }
+  .track-grid > .track { flex: none; max-width: none; }
+  .track-grid.single { grid-template-columns: 1fr; }
   .track-grid.cols-4 { grid-template-columns: repeat(2, 1fr); }
+  .swipe-hint { display: none; }
 }
 @media (min-width: 1050px) { .track-grid.cols-4 { grid-template-columns: repeat(4, 1fr); } }
 
@@ -207,14 +244,17 @@ body {
 
 /* ───────────────────────── Sponsor strip ───────────────────────── */
 .sponsor-strip {
-  display: flex; align-items: center; gap: 9px; padding: 8px 14px;
-  background: #fafbfa; border-top: 1px solid var(--line);
+  display: flex; align-items: center; gap: 12px; padding: 11px 14px;
+  background: #fafbfa; border-top: 1px solid var(--line); margin-top: auto;
 }
 .sponsor-strip .lbl {
   font-size: .58rem; font-weight: 800; text-transform: uppercase;
-  letter-spacing: .08em; color: var(--muted);
+  letter-spacing: .08em; color: var(--muted); line-height: 1.3; flex-shrink: 0;
 }
-.sponsor-strip img { height: 22px; object-fit: contain; }
+.sponsor-strip img {
+  height: 38px; max-width: 150px; object-fit: contain;
+  background: #fff; border-radius: 6px; padding: 3px 8px;
+}
 
 /* ───────────────────────── Faculty ───────────────────────── */
 .fac-grid { display: grid; gap: 11px; grid-template-columns: repeat(auto-fill, minmax(215px, 1fr)); margin-top: 14px; }
@@ -337,5 +377,10 @@ footer {
   text-align: center; padding: 26px 14px 90px; color: var(--muted); font-size: .74rem;
 }
 footer .brand { color: var(--green); font-weight: 800; }
+footer .copyright {
+  margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line);
+  font-size: .72rem; color: var(--muted);
+}
+footer .copyright strong { color: var(--green); font-weight: 800; }
 
 .hidden { display: none !important; }
