@@ -86,20 +86,23 @@ const PROGRAM = {
       ],
     },
 
-    { type: 'break', s: '10:10', e: '10:45', title: 'Tea Break', icon: 'fa-mug-hot' },
+    // Spreadsheet had tea 10:10–10:45 but the workshops restarting at 10:40.
+    // Resolved the same way as the Day 2 afternoon: the session time wins and
+    // the break is trimmed to fit, so tea ends at 10:40.
+    { type: 'break', s: '10:10', e: '10:40', title: 'Tea Break', icon: 'fa-mug-hot' },
 
     {
-      type: 'parallel', s: '10:45', e: '13:30',
+      type: 'parallel', s: '10:40', e: '13:30',
       label: 'Pre-conference workshops — late morning session',
       tracks: [
         { name: 'Regional Anaesthesia Workshop', room: 'Room 1',
-          sessions: [{ s: '10:45', e: '13:30', title: 'Regional Anaesthesia Workshop (continued)', speakers: [], kind: 'talk' }] },
+          sessions: [{ s: '10:40', e: '13:30', title: 'Regional Anaesthesia Workshop (continued)', speakers: [], kind: 'talk' }] },
         { name: 'Paediatric Pain', room: 'Room 2', faculty: ['Dr. Mark Gacii', 'Society of Paediatric Anaesthesiologists'],
-          sessions: [{ s: '10:45', e: '13:30', title: 'Paediatric Pain Workshop (continued)', speakers: ['Dr. Mark Gacii'], kind: 'talk' }] },
+          sessions: [{ s: '10:40', e: '13:30', title: 'Paediatric Pain Workshop (continued)', speakers: ['Dr. Mark Gacii'], kind: 'talk' }] },
         { name: 'Capnography Workshop', room: 'Room 3', faculty: ['Dr. Zipporah Gathuya', 'Smile Train'], sponsor: 'smiletrain',
-          sessions: [{ s: '10:45', e: '13:30', title: 'Capnography Workshop (continued)', speakers: ['Dr. Zipporah Gathuya'], kind: 'talk' }] },
+          sessions: [{ s: '10:40', e: '13:30', title: 'Capnography Workshop (continued)', speakers: ['Dr. Zipporah Gathuya'], kind: 'talk' }] },
         { name: 'FATE Echocardiography', room: 'Room 4', faculty: ['Dr. Kevin Umani', 'Dr. Isaac Adembesa'],
-          sessions: [{ s: '10:45', e: '13:30', title: 'FATE Workshop (continued)', speakers: ['Dr. Kevin Umani', 'Dr. Isaac Adembesa'], kind: 'talk' }] },
+          sessions: [{ s: '10:40', e: '13:30', title: 'FATE Workshop (continued)', speakers: ['Dr. Kevin Umani', 'Dr. Isaac Adembesa'], kind: 'talk' }] },
       ],
     },
 
