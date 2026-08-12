@@ -126,17 +126,24 @@ function getAnnouncement_() {
 // ── Writes ───────────────────────────────────────────────────────────────────
 
 /**
- * Append a row, forcing the final (timestamp) cell to plain text.
+ * Append a row as plain text, bypassing Sheets' value coercion entirely.
  *
- * Sheets auto-parses anything date-shaped: "12/08 10:47" is read as
- * 8 December, not 12 August, and comes back out of doGet as an ISO string
- * with the wrong date. Setting the cell format to "@" before writing keeps
- * the timestamp as the literal text we generated.
+ * Sheets rewrites anything that looks like a number or a date:
+ *   phone  "0721436926"  → 721436926   (leading zero stripped — unusable)
+ *   time   "12/08 10:47" → 8 December  (read as MM/DD, wrong date)
+ * Both came back out of doGet mangled. Formatting the target range as "@"
+ * before writing, and writing strings, keeps every field exactly as typed.
+ *
+ * Safe for the boolean/number columns too: every reader coerces —
+ * resolved via String(...) === 'TRUE', upvotes and option_index via Number().
  */
 function appendRow_(sh, values) {
-  sh.appendRow(values);
-  const row = sh.getLastRow(), col = values.length;
-  sh.getRange(row, col).setNumberFormat('@').setValue(values[col - 1]);
+  const row = sh.getLastRow() + 1;
+  const range = sh.getRange(row, 1, 1, values.length);
+  range.setNumberFormat('@');
+  range.setValues([values.map(function (v) {
+    return (v === null || v === undefined) ? '' : String(v);
+  })]);
 }
 
 function doPost(e) {

@@ -125,9 +125,30 @@ function getAnnouncement_() {
 
 // ── Writes ───────────────────────────────────────────────────────────────────
 
+/**
+ * Append a row as plain text, bypassing Sheets' value coercion entirely.
+ *
+ * Sheets rewrites anything that looks like a number or a date:
+ *   phone  "0721436926"  → 721436926   (leading zero stripped — unusable)
+ *   time   "12/08 10:47" → 8 December  (read as MM/DD, wrong date)
+ * Both came back out of doGet mangled. Formatting the target range as "@"
+ * before writing, and writing strings, keeps every field exactly as typed.
+ *
+ * Safe for the boolean/number columns too: every reader coerces —
+ * resolved via String(...) === 'TRUE', upvotes and option_index via Number().
+ */
+function appendRow_(sh, values) {
+  const row = sh.getLastRow() + 1;
+  const range = sh.getRange(row, 1, 1, values.length);
+  range.setNumberFormat('@');
+  range.setValues([values.map(function (v) {
+    return (v === null || v === undefined) ? '' : String(v);
+  })]);
+}
+
 function doPost(e) {
   const data = JSON.parse(e.postData.contents);
-  const now  = () => Utilities.formatDate(new Date(), TZ, 'dd/MM HH:mm');
+  const now  = () => Utilities.formatDate(new Date(), TZ, 'dd MMM HH:mm');
 
   if (data.action === 'resolve') {
     const sh = lfSheet_(), vals = sh.getDataRange().getValues();
@@ -139,10 +160,10 @@ function doPost(e) {
     const sh = votesSheet_(), vals = sh.getDataRange().getValues();
     const pid = String(data.poll_id), dev = String(data.device_id || '');
     const already = vals.slice(1).some(r => String(r[0]) === pid && String(r[2]) === dev);
-    if (dev && !already) sh.appendRow([pid, Number(data.option_index), dev, now()]);
+    if (dev && !already) appendRow_(sh, [pid, Number(data.option_index), dev, now()]);
 
   } else if (data.action === 'qa_submit') {
-    qaSheet_().appendRow([
+    appendRow_(qaSheet_(), [
       String(data.id || Date.now()), data.session || '', data.question || '',
       data.name || 'Anonymous', 0, now(),
     ]);
@@ -157,7 +178,7 @@ function doPost(e) {
     }
 
   } else {
-    lfSheet_().appendRow([
+    appendRow_(lfSheet_(), [
       String(data.id || Date.now()), data.type || 'lost', data.item || '',
       data.desc || '', data.loc || '', data.name || '', data.contact || '',
       false, now(),
