@@ -318,8 +318,12 @@ const PROGRAM = {
       title: 'Panel Discussions', track: 'Panel Discussions',
       sessions: [
         { s: '14:15', e: '15:00', title: 'Medical-legal challenges in anaesthesia practice', speakers: ['Advocate Roy Tollo', 'Dr. Mark Gacii'], kind: 'panel' },
-        { s: '15:00', e: '15:40', title: 'Who gets the ICU bed? Ethical decision-making in resource-limited settings', speakers: ['Dr. Idris Chikophe', 'Dr. David Odaba'], kind: 'panel' },
-        { s: '15:15', e: '15:30', title: 'Discussion', speakers: [], kind: 'discussion' },
+        // Spreadsheet had this panel as 15:00–15:40, which ran past both the block's
+        // own "1415-1530: PANEL DISCUSSIONS" header and the 15:30 tea break, and
+        // overlapped a stray 15:15–15:30 discussion row duplicated from the
+        // two-track template used earlier in the day. Trimmed to 15:30 — the one
+        // time three separate cells agree on. Discussion is part of the panels.
+        { s: '15:00', e: '15:30', title: 'Who gets the ICU bed? Ethical decision-making in resource-limited settings', speakers: ['Dr. Idris Chikophe', 'Dr. David Odaba'], kind: 'panel' },
       ],
     },
 
