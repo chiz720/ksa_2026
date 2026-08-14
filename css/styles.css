@@ -40,8 +40,9 @@ body {
 }
 .hdr-txt h1 { font-size: 1.05rem; font-weight: 800; margin: 0; letter-spacing: -.01em; }
 .hdr-txt .sub { font-size: .76rem; opacity: .88; margin-top: 2px; }
+/* Centred between the title and the sponsor, so the sponsor logo owns the corner. */
 .hdr-clock {
-  margin-left: auto; text-align: right; flex-shrink: 0;
+  margin: 0 auto; text-align: center; flex-shrink: 0;
   font-variant-numeric: tabular-nums;
 }
 .hdr-clock .t { font-size: 1.15rem; font-weight: 700; letter-spacing: -.02em; }
@@ -52,12 +53,12 @@ body {
   flex-shrink: 0; display: flex; flex-direction: column; align-items: center; gap: 4px;
 }
 .hdr-sponsor .lbl {
-  font-size: .55rem; font-weight: 800; text-transform: uppercase;
-  letter-spacing: .09em; opacity: .78; white-space: nowrap;
+  font-size: .58rem; font-weight: 800; text-transform: uppercase;
+  letter-spacing: .09em; opacity: .8; white-space: nowrap;
 }
 .hdr-sponsor img {
-  display: block; height: 30px; max-width: 128px; object-fit: contain;
-  background: #fff; border-radius: 8px; padding: 5px 9px;
+  display: block; height: 40px; max-width: 158px; object-fit: contain;
+  background: #fff; border-radius: 9px; padding: 6px 11px;
 }
 
 /* Narrow screens: shed the clock's label, then the clock, to keep the
@@ -69,7 +70,7 @@ body {
   .hdr-clock .z { display: none; }
   .hdr-clock .t { font-size: .95rem; }
   .hdr-sponsor .lbl { font-size: .5rem; letter-spacing: .06em; }
-  .hdr-sponsor img { height: 24px; max-width: 96px; padding: 4px 7px; }
+  .hdr-sponsor img { height: 28px; max-width: 104px; padding: 4px 7px; }
 }
 @media (max-width: 430px) {
   .hdr-clock { display: none; }
