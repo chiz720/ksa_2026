@@ -1,6 +1,6 @@
 /* ==========================================================================
    KSA 2026 — Programme data
-   Source: 2026ksa.xlsx (Sheet1)
+   Source: KSA2026V2.xlsx (Sheet1)
    Every session below is transcribed from the master spreadsheet. Sentence
    case + obvious spelling corrections applied; times are unchanged.
    ========================================================================== */
@@ -65,7 +65,8 @@ const PROGRAM = {
       tracks: [
         {
           name: 'Regional Anaesthesia Workshop', room: 'Room 1',
-          sessions: [{ s: '08:30', e: '10:10', title: 'Regional Anaesthesia Workshop', speakers: [], kind: 'talk' }],
+          faculty: ["Dr. Caxton Ng'ang'a", 'Dr. Billow Mohammed'],
+          sessions: [{ s: '08:30', e: '10:10', title: 'Regional Anaesthesia Workshop', speakers: ["Dr. Caxton Ng'ang'a", 'Dr. Billow Mohammed'], kind: 'talk' }],
         },
         {
           name: 'Paediatric Pain', room: 'Room 2',
@@ -95,8 +96,8 @@ const PROGRAM = {
       type: 'parallel', s: '10:40', e: '13:30',
       label: 'Pre-conference workshops — late morning session',
       tracks: [
-        { name: 'Regional Anaesthesia Workshop', room: 'Room 1',
-          sessions: [{ s: '10:40', e: '13:30', title: 'Regional Anaesthesia Workshop (continued)', speakers: [], kind: 'talk' }] },
+        { name: 'Regional Anaesthesia Workshop', room: 'Room 1', faculty: ["Dr. Caxton Ng'ang'a", 'Dr. Billow Mohammed'],
+          sessions: [{ s: '10:40', e: '13:30', title: 'Regional Anaesthesia Workshop (continued)', speakers: ["Dr. Caxton Ng'ang'a", 'Dr. Billow Mohammed'], kind: 'talk' }] },
         { name: 'Paediatric Pain', room: 'Room 2', faculty: ['Dr. Mark Gacii', 'Society of Paediatric Anaesthesiologists'],
           sessions: [{ s: '10:40', e: '13:30', title: 'Paediatric Pain Workshop (continued)', speakers: ['Dr. Mark Gacii'], kind: 'talk' }] },
         { name: 'Capnography Workshop', room: 'Room 3', faculty: ['Dr. Zipporah Gathuya', 'Smile Train'], sponsor: 'smiletrain',
@@ -112,8 +113,8 @@ const PROGRAM = {
       type: 'parallel', s: '14:30', e: '15:30',
       label: 'Pre-conference workshops — afternoon session',
       tracks: [
-        { name: 'Regional Anaesthesia Workshop', room: 'Room 1',
-          sessions: [{ s: '14:30', e: '15:30', title: 'Regional Anaesthesia Workshop (afternoon)', speakers: [], kind: 'talk' }] },
+        { name: 'Regional Anaesthesia Workshop', room: 'Room 1', faculty: ["Dr. Caxton Ng'ang'a", 'Dr. Billow Mohammed'],
+          sessions: [{ s: '14:30', e: '15:30', title: 'Regional Anaesthesia Workshop (afternoon)', speakers: ["Dr. Caxton Ng'ang'a", 'Dr. Billow Mohammed'], kind: 'talk' }] },
         { name: 'Paediatric Pain', room: 'Room 2', faculty: ['Dr. Mark Gacii', 'Society of Paediatric Anaesthesiologists'],
           sessions: [{ s: '14:30', e: '15:30', title: 'Paediatric Pain Workshop (afternoon)', speakers: ['Dr. Mark Gacii'], kind: 'talk' }] },
         { name: 'Capnography Workshop', room: 'Room 3', faculty: ['Dr. Zipporah Gathuya', 'Smile Train'], sponsor: 'smiletrain',
@@ -145,9 +146,9 @@ const PROGRAM = {
       tracks: [
         {
           name: 'Patient Safety & Quality Care', room: 'Room 1 — Baraza',
-          chairs: ['Dr. Ivy Wanyoike', 'Elizabeth'],
+          chairs: ['Dr. Ivy Wanyoike', 'Dr. Elizabeth Nyakundi'],
           sessions: [
-            { s: '08:30', e: '09:00', title: 'Beyond tick boxes: modernizing the WHO Surgical Safety Checklist — from compliance to culture in perioperative safety', speakers: ['Dr. Betelhem Hailu Belda'], kind: 'talk' },
+            { s: '08:30', e: '09:00', title: 'More than the ASA score: identifying the high-risk surgical patient', speakers: ['Dr. Matt Kynes'], kind: 'talk' },
             { s: '09:00', e: '09:30', title: 'Medication safety and error reduction in anaesthesia: lessons from recent incidents and evidence-based prevention strategies', speakers: ['Dr. Antony Gatheru'], kind: 'talk' },
             { s: '09:30', e: '10:00', title: 'M&M culture: learning from adverse events', speakers: ["Dr. Sammy Ng'ang'a"], kind: 'talk' },
             { s: '10:00', e: '10:10', title: 'Discussion', speakers: [], kind: 'discussion' },
@@ -207,7 +208,10 @@ const PROGRAM = {
       ],
     },
 
-    { type: 'break', s: '13:15', e: '14:15', title: 'Lunch & Satellite Symposium', icon: 'fa-utensils' },
+    {
+      type: 'break', s: '13:15', e: '14:15', title: 'Lunch & Satellite Symposium', icon: 'fa-utensils',
+      note: 'Satellite symposium: Why do we need better anaesthesia depth monitoring? — Dr. Aliya Mumin',
+    },
 
     {
       type: 'parallel', s: '14:30', e: '15:45',
@@ -281,9 +285,15 @@ const PROGRAM = {
     { type: 'break', s: '10:10', e: '11:10', title: 'Tea Break', icon: 'fa-mug-hot' },
 
     {
-      type: 'plenary', s: '11:10', e: '12:00', room: 'Baraza', highlight: true,
+      type: 'plenary', s: '11:10', e: '11:25', room: 'Baraza',
+      title: 'Industry Talk', note: 'Courtesy of GE Healthcare',
+      sessions: [{ s: '11:10', e: '11:25', title: 'The arterial line reimagined: transforming intraoperative hypotension into actionable haemodynamic intelligence', speakers: ['Dr. Isaac Adembesa'], kind: 'talk' }],
+    },
+
+    {
+      type: 'plenary', s: '11:25', e: '12:00', room: 'Baraza', highlight: true,
       title: 'Plenary', chairs: ['Dr. Moses Gicheru'],
-      sessions: [{ s: '11:10', e: '12:00', title: 'Managing the sick child in non-specialist centres: safe anaesthesia beyond the tertiary hospitals', speakers: ['Dr. Anthony Iraya'], kind: 'talk' }],
+      sessions: [{ s: '11:25', e: '12:00', title: 'Managing the sick child in non-specialist centres: safe anaesthesia beyond the tertiary hospitals', speakers: ['Dr. Anthony Iraya'], kind: 'talk' }],
     },
 
     {
@@ -303,11 +313,11 @@ const PROGRAM = {
         {
           name: 'Perioperative Critical Care', room: 'Room 2 — Johari',
           subtitle: 'Bridging theatre and ICU',
-          chairs: ['Dr. Sam Njihia', 'Dr. Bancy Njoki'],
+          chairs: ['Dr. Fiona-Hope Mtula', 'Dr. Bancy Njoki'],
           sessions: [
             { s: '12:00', e: '12:20', title: 'Haemodynamic optimization perioperatively', speakers: ['Dr. Cornell Sendagire'], kind: 'talk' },
             { s: '12:20', e: '12:40', title: 'Bleeding, hypoxia and AKI', speakers: ['Dr. Caroline Jeptoo'], kind: 'talk' },
-            { s: '12:40', e: '13:00', title: 'More than the ASA score: identifying the high-risk surgical patient', speakers: ['Dr. Matt Kynes'], kind: 'talk' },
+            { s: '12:40', e: '13:00', title: 'Beyond tick boxes: modernizing the WHO Surgical Safety Checklist — from compliance to culture in perioperative safety', speakers: ['Dr. Betelhem Hailu Belda'], kind: 'talk' },
             { s: '13:00', e: '13:15', title: 'Discussion', speakers: [], kind: 'discussion' },
           ],
         },
@@ -320,7 +330,7 @@ const PROGRAM = {
       type: 'plenary', s: '14:15', e: '15:40', room: 'Baraza',
       title: 'Panel Discussions', track: 'Panel Discussions',
       sessions: [
-        { s: '14:15', e: '15:00', title: 'Medical-legal challenges in anaesthesia practice', speakers: ['Advocate Roy Tollo', 'Dr. Mark Gacii'], kind: 'panel' },
+        { s: '14:15', e: '15:00', title: 'Medical-legal challenges in anaesthesia practice', speakers: ['Advocate Roy Tollo', 'Advocate Naomi Kinuva', 'Dr. Mark Gacii'], kind: 'panel' },
         // Afternoon times confirmed by the organisers, overriding the spreadsheet's
         // block header ("1415-1530"), its 15:15–15:30 discussion row and its
         // 15:30 tea break: panel runs to 15:40, discussion 15:40–16:00,
@@ -392,6 +402,13 @@ const FACULTY = (() => {
     p.chairs = p.chairs.filter(c => {
       const k = c.dayId + '|' + c.track;
       return seen.has(k) ? false : (seen.add(k), true);
+    });
+    // Workshop leads are listed both as session speakers and as track faculty —
+    // one slot can only be one talk, so keep the first (most specific) entry.
+    const seenT = new Set();
+    p.talks = p.talks.filter(t => {
+      const k = t.dayId + '|' + t.s + '|' + t.track;
+      return seenT.has(k) ? false : (seenT.add(k), true);
     });
   });
   return [...map.values()].sort((a, b) => {
