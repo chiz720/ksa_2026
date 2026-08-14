@@ -219,7 +219,7 @@ const PROGRAM = {
       tracks: [
         {
           name: 'Subspeciality & High-Risk Anaesthesia', room: 'Room 1 — Baraza',
-          chairs: ['Dr. Susan Omundi', 'Navneel Kaur'],
+          chairs: ['Dr. Susan Omundi', 'Dr. Navneel Kaur'],
           sessions: [
             { s: '14:30', e: '14:50', title: 'Anaesthesia for major vascular surgery: abdominal aortic aneurysm', speakers: ['Dr. Kevin Umani'], kind: 'talk' },
             { s: '14:50', e: '15:10', title: 'Major haemorrhage — tranexamic acid: when and how', speakers: ['Dr. Cornell Sendagire'], kind: 'talk' },
