@@ -72,8 +72,19 @@ body {
   .hdr-sponsor .lbl { font-size: .5rem; letter-spacing: .06em; }
   .hdr-sponsor img { height: 28px; max-width: 104px; padding: 4px 7px; }
 }
+/* Too narrow to sit beside the title and the sponsor — the clock takes its
+   own line rather than disappearing. */
 @media (max-width: 430px) {
-  .hdr-clock { display: none; }
+  .hdr-row { flex-wrap: wrap; }
+  /* basis 0 so the title shrinks in place instead of claiming its own line */
+  .hdr-txt { flex: 1 1 0; min-width: 0; }
+  .hdr-sponsor { order: 3; }
+  .hdr-clock {
+    order: 4; width: 100%; margin: 5px 0 0;
+    display: flex; align-items: baseline; justify-content: center; gap: 7px;
+  }
+  .hdr-clock .t { font-size: 1rem; }
+  .hdr-clock .z { display: inline; }
 }
 
 .theme-bar {
