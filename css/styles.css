@@ -47,6 +47,34 @@ body {
 .hdr-clock .t { font-size: 1.15rem; font-weight: 700; letter-spacing: -.02em; }
 .hdr-clock .z { font-size: .6rem; opacity: .7; text-transform: uppercase; letter-spacing: .08em; }
 
+/* Main sponsor — top-right of the header */
+.hdr-sponsor {
+  flex-shrink: 0; display: flex; flex-direction: column; align-items: center; gap: 4px;
+}
+.hdr-sponsor .lbl {
+  font-size: .55rem; font-weight: 800; text-transform: uppercase;
+  letter-spacing: .09em; opacity: .78; white-space: nowrap;
+}
+.hdr-sponsor img {
+  display: block; height: 30px; max-width: 128px; object-fit: contain;
+  background: #fff; border-radius: 8px; padding: 5px 9px;
+}
+
+/* Narrow screens: shed the clock's label, then the clock, to keep the
+   title readable alongside the sponsor logo. */
+@media (max-width: 640px) {
+  .hdr-row { gap: 10px; }
+  .hdr-logo { width: 44px; height: 44px; }
+  .hdr-txt h1 { font-size: .92rem; }
+  .hdr-clock .z { display: none; }
+  .hdr-clock .t { font-size: .95rem; }
+  .hdr-sponsor .lbl { font-size: .5rem; letter-spacing: .06em; }
+  .hdr-sponsor img { height: 24px; max-width: 96px; padding: 4px 7px; }
+}
+@media (max-width: 430px) {
+  .hdr-clock { display: none; }
+}
+
 .theme-bar {
   background: var(--red); color: #fff; text-align: center;
   font-size: .74rem; padding: 6px 14px; letter-spacing: .01em;
