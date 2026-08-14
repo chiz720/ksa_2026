@@ -219,7 +219,7 @@ const PROGRAM = {
       tracks: [
         {
           name: 'Subspeciality & High-Risk Anaesthesia', room: 'Room 1 — Baraza',
-          chairs: ['Dr. Susan Omundi', 'Dr. Navneet Kaur'],
+          chairs: ['Dr. Susan Omundi', 'Navneel Kaur'],
           sessions: [
             { s: '14:30', e: '14:50', title: 'Anaesthesia for major vascular surgery: abdominal aortic aneurysm', speakers: ['Dr. Kevin Umani'], kind: 'talk' },
             { s: '14:50', e: '15:10', title: 'Major haemorrhage — tranexamic acid: when and how', speakers: ['Dr. Cornell Sendagire'], kind: 'talk' },
@@ -315,7 +315,7 @@ const PROGRAM = {
           subtitle: 'Bridging theatre and ICU',
           chairs: ['Dr. Fiona-Hope Mtula', 'Dr. Bancy Njoki'],
           sessions: [
-            { s: '12:00', e: '12:20', title: 'Haemodynamic optimization perioperatively', speakers: ['Dr. Cornell Sendagire'], kind: 'talk' },
+            { s: '12:00', e: '12:20', title: 'Perioperative Haemodynamic Optimization', speakers: ['Dr. Cornell Sendagire'], kind: 'talk' },
             { s: '12:20', e: '12:40', title: 'Bleeding, hypoxia and AKI', speakers: ['Dr. Caroline Jeptoo'], kind: 'talk' },
             { s: '12:40', e: '13:00', title: 'Beyond tick boxes: modernizing the WHO Surgical Safety Checklist — from compliance to culture in perioperative safety', speakers: ['Dr. Betelhem Hailu Belda'], kind: 'talk' },
             { s: '13:00', e: '13:15', title: 'Discussion', speakers: [], kind: 'discussion' },
