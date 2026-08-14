@@ -160,6 +160,20 @@ body {
   .tip-go { padding: 6px 12px; }
 }
 
+/* ───────────── "Tap the star" hint ─────────────
+   Sits at the top of a day, until dismissed or the first talk is starred. */
+.star-tip {
+  display: flex; align-items: center; gap: 10px;
+  background: #fffbeb; border: 1px solid #fcd9a4; border-left: 3px solid #f59e0b;
+  border-radius: var(--radius); padding: 10px 12px; margin: 14px 0 2px;
+  font-size: .8rem; color: #7c4a03; line-height: 1.35;
+}
+.star-tip > i { color: #f59e0b; font-size: 1rem; flex-shrink: 0; }
+.star-tip .x {
+  margin-left: auto; background: none; border: 0; color: #b4802f;
+  cursor: pointer; font-size: 1.05rem; flex-shrink: 0; padding: 0 2px;
+}
+
 /* ───────────────────────── Toolbar ───────────────────────── */
 .toolbar { display: flex; gap: 8px; align-items: center; margin: 16px 0 6px; flex-wrap: wrap; }
 .search-box { position: relative; flex: 1 1 240px; }

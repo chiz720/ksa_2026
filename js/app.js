@@ -47,6 +47,23 @@ function dismissLFTip() {
   try { localStorage.setItem(LF_TIP_KEY, '1'); } catch (e) { /* private mode */ }
 }
 
+/* The star on each session is easy to miss — say what it does until the
+   reader either dismisses the hint or stars their first talk. */
+const STAR_TIP_KEY = 'ksa26_star_tip_seen';
+const starTipSeen = () => localStorage.getItem(STAR_TIP_KEY) || stars.size > 0;
+function dismissStarTip() {
+  try { localStorage.setItem(STAR_TIP_KEY, '1'); } catch (e) { /* private mode */ }
+}
+function starTipHTML() {
+  return starTipSeen() ? '' : `
+    <div class="star-tip">
+      <i class="far fa-star"></i>
+      <div>Tap the <strong>star</strong> beside any talk to build your own programme —
+        saved sessions appear under <strong>My Schedule</strong>.</div>
+      <button class="x" data-dismiss="star-tip" aria-label="Dismiss">&times;</button>
+    </div>`;
+}
+
 /* ── Session status relative to the live clock ───────────────────────────── */
 function statusOf(item) {
   if (item.date !== todayISO()) return '';
@@ -180,7 +197,7 @@ function renderDay(dayId) {
     }
   });
 
-  return `<div class="day-meta">${html}</div>`;
+  return `<div class="day-meta">${starTipHTML()}${html}</div>`;
 }
 
 /* ── Faculty view ────────────────────────────────────────────────────────── */
@@ -427,11 +444,21 @@ document.addEventListener('click', e => {
   const tab = e.target.closest('.tab');
   if (tab) { showTab(tab.dataset.tab); return; }
 
+  const dismiss = e.target.closest('[data-dismiss="star-tip"]');
+  if (dismiss) {
+    dismissStarTip();
+    dismiss.closest('.star-tip').remove();
+    return;
+  }
+
   const star = e.target.closest('[data-star]');
   if (star) {
     const id = star.dataset.star;
     stars.has(id) ? stars.delete(id) : stars.add(id);
     saveStars();
+    // They have found the star — retire the hint
+    dismissStarTip();
+    document.querySelector('.star-tip')?.remove();
     star.classList.toggle('on', stars.has(id));
     star.innerHTML = `<i class="${stars.has(id) ? 'fas' : 'far'} fa-star"></i>`;
     updateStarCount();
