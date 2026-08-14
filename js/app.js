@@ -115,6 +115,7 @@ const SPONSORS = {
   smiletrain: { img: 'logos/smiletrain.png', alt: 'Smile Train' },
   fresenius:  { img: 'logos/fresenius.png',  alt: 'Fresenius Kabi' },
   hatch:      { img: 'logos/hatch.png',      alt: 'Hatch Technologies', square: true },
+  ge:         { img: 'logos/ge.png',         alt: 'GE HealthCare' },
 };
 function sponsorStrip(key) {
   const s = SPONSORS[key];

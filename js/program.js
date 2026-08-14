@@ -288,7 +288,7 @@ const PROGRAM = {
 
     {
       type: 'plenary', s: '11:10', e: '11:25', room: 'Baraza',
-      title: 'Industry Talk', note: 'Courtesy of GE Healthcare',
+      title: 'Industry Talk', sponsor: 'ge',
       sessions: [{ s: '11:10', e: '11:25', title: 'The arterial line reimagined: transforming intraoperative hypotension into actionable haemodynamic intelligence', speakers: ['Dr. Isaac Adembesa'], kind: 'talk' }],
     },
 
