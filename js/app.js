@@ -38,6 +38,15 @@ const saveStars = () => localStorage.setItem(STAR_KEY, JSON.stringify([...stars]
 let currentTab = 'day1';
 let query = '';
 
+/* Lost & Found lives in the last tab, which is off-screen on phones —
+   announce it once per device. */
+const LF_TIP_KEY = 'ksa26_lf_tip_seen';
+function dismissLFTip() {
+  const tip = $('lf-tip');
+  if (tip) tip.classList.add('hidden');
+  try { localStorage.setItem(LF_TIP_KEY, '1'); } catch (e) { /* private mode */ }
+}
+
 /* ── Session status relative to the live clock ───────────────────────────── */
 function statusOf(item) {
   if (item.date !== todayISO()) return '';
@@ -256,7 +265,13 @@ function renderSearch() {
 /* ── Tab switching ───────────────────────────────────────────────────────── */
 function showTab(id) {
   currentTab = id;
-  document.querySelectorAll('.tab').forEach(b => b.classList.toggle('active', b.dataset.tab === id));
+  document.querySelectorAll('.tab').forEach(b => {
+    const on = b.dataset.tab === id;
+    b.classList.toggle('active', on);
+    // The strip scrolls on phones — keep the active tab in view
+    if (on) b.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+  });
+  if (id === 'lost') dismissLFTip();
   const day = DAYS.find(d => d.id === id);
   document.documentElement.style.setProperty('--day',
     day ? day.color : ({ faculty: '#6a1b9a', mine: '#b45309', qa: '#00695c', poll: '#c2185b', lost: '#5d4037' }[id] || 'var(--green)'));
@@ -442,6 +457,11 @@ function init() {
   $('clear-search').addEventListener('click', () => {
     query = ''; $('search').value = ''; $('clear-search').classList.add('hidden'); render();
   });
+
+  // Lost & Found tip — until dismissed or the tab has been opened once
+  if (!localStorage.getItem(LF_TIP_KEY)) $('lf-tip').classList.remove('hidden');
+  $('lf-tip-go').addEventListener('click', () => showTab('lost'));
+  $('lf-tip-x').addEventListener('click', dismissLFTip);
 
   // Open on today if the conference is running, otherwise Day 1
   const today = todayISO();
