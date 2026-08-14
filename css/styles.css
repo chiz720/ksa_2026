@@ -283,6 +283,8 @@ body {
   height: 38px; max-width: 150px; object-fit: contain;
   background: #fff; border-radius: 6px; padding: 3px 8px;
 }
+/* Square lockups carry a tagline — give them height so it stays legible. */
+.sponsor-strip img.square { height: 60px; max-width: 60px; padding: 3px; }
 
 /* ───────────────────────── Faculty ───────────────────────── */
 .fac-grid { display: grid; gap: 11px; grid-template-columns: repeat(auto-fill, minmax(215px, 1fr)); margin-top: 14px; }

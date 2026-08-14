@@ -114,11 +114,12 @@ function trackCol(track, blockIdx, dayId, groupIdx) {
 const SPONSORS = {
   smiletrain: { img: 'logos/smiletrain.png', alt: 'Smile Train' },
   fresenius:  { img: 'logos/fresenius.png',  alt: 'Fresenius Kabi' },
+  hatch:      { img: 'logos/hatch.png',      alt: 'Hatch Technologies', square: true },
 };
 function sponsorStrip(key) {
   const s = SPONSORS[key];
   if (!s) return '';
-  return `<div class="sponsor-strip"><span class="lbl">In partnership with</span><img src="${s.img}" alt="${esc(s.alt)}"></div>`;
+  return `<div class="sponsor-strip"><span class="lbl">In partnership with</span><img class="${s.square ? 'square' : ''}" src="${s.img}" alt="${esc(s.alt)}"></div>`;
 }
 
 /* ── Day view ────────────────────────────────────────────────────────────── */
