@@ -280,7 +280,7 @@ body {
   letter-spacing: .08em; color: var(--muted); line-height: 1.3; flex-shrink: 0;
 }
 .sponsor-strip img {
-  height: 38px; max-width: 150px; object-fit: contain;
+  height: 46px; max-width: 160px; object-fit: contain;
   background: #fff; border-radius: 6px; padding: 3px 8px;
 }
 /* Square lockups carry a tagline — give them height so it stays legible. */
