@@ -172,13 +172,13 @@ const PROGRAM = {
     { type: 'break', s: '10:10', e: '10:45', title: 'Tea Break', icon: 'fa-mug-hot' },
 
     {
-      type: 'plenary', s: '10:45', e: '11:15', room: 'Baraza', highlight: true,
+      type: 'plenary', s: '10:45', e: '11:15', room: 'Johari', highlight: true,
       title: 'Opening Ceremony',
       sessions: [{ s: '10:45', e: '11:15', title: 'Opening Ceremony & Dr. Madhu Patel Award', speakers: [], kind: 'ceremony' }],
     },
 
     {
-      type: 'plenary', s: '11:15', e: '12:00', room: 'Baraza', highlight: true,
+      type: 'plenary', s: '11:15', e: '12:00', room: 'Johari', highlight: true,
       title: 'Plenary',
       sessions: [{ s: '11:15', e: '12:00', title: 'Plenary: Safe obstetric anaesthesia in the rural setting — followed by Council of Governors panel discussion', speakers: ['Dr. Linda Nguu', 'Council of Governors Panel'], kind: 'panel' }],
     },
@@ -191,7 +191,7 @@ const PROGRAM = {
           name: 'Obstetrics', room: 'Room 1 — Baraza',
           chairs: ['Dr. Billow Mohammed', 'Dr. Jonathan Monda'],
           sessions: [
-            { s: '12:00', e: '12:20', title: 'Airway management in obstetric patients', speakers: ['Suheil Juma'], kind: 'talk' },
+            { s: '12:00', e: '12:20', title: 'Airway management in obstetric patients', speakers: ['Dr. Suheil Juma'], kind: 'talk' },
             { s: '12:20', e: '12:40', title: 'Management of hypotension during spinal anaesthesia: practical strategies', speakers: ['Dr. Lesley Gesare', 'Dr. Charles Mwembu'], kind: 'talk' },
             { s: '12:40', e: '13:00', title: 'Last but not least: a toxic love story with local anaesthetics — an evidence-based update (2021–2026)', speakers: ['Dr. Sheila Kirongothi'], kind: 'talk' },
             { s: '13:00', e: '13:15', title: 'Discussion', speakers: [], kind: 'discussion' },
@@ -246,7 +246,7 @@ const PROGRAM = {
       type: 'break', s: '15:45', e: '16:30', title: 'Tea Break & Poster Presentation', icon: 'fa-mug-hot',
       note: 'Poster judges: Dr. Stephen Okelo · Dr. Matt Kynes · Dr. Kituyi Werunga · Dr. Mark Gacii',
     },
-    { type: 'break', s: '16:30', e: '18:30', title: 'Annual General Meeting (AGM)', icon: 'fa-users', room: 'Baraza' },
+    { type: 'break', s: '16:30', e: '18:30', title: 'Annual General Meeting (AGM)', icon: 'fa-users', room: 'Johari' },
   ],
 
   /* ======================== DAY 2 · FRI 21 AUGUST ======================== */
@@ -287,13 +287,13 @@ const PROGRAM = {
     { type: 'break', s: '10:10', e: '11:10', title: 'Tea Break', icon: 'fa-mug-hot' },
 
     {
-      type: 'plenary', s: '11:10', e: '11:25', room: 'Baraza',
+      type: 'plenary', s: '11:10', e: '11:25', room: 'Johari',
       title: 'Industry Talk', sponsor: 'ge',
       sessions: [{ s: '11:10', e: '11:25', title: 'The arterial line reimagined: transforming intraoperative hypotension into actionable haemodynamic intelligence', speakers: ['Dr. Isaac Adembesa'], kind: 'talk' }],
     },
 
     {
-      type: 'plenary', s: '11:25', e: '12:00', room: 'Baraza', highlight: true,
+      type: 'plenary', s: '11:25', e: '12:00', room: 'Johari', highlight: true,
       title: 'Plenary', chairs: ['Dr. Moses Gicheru'],
       sessions: [{ s: '11:25', e: '12:00', title: 'Managing the sick child in non-specialist centres: safe anaesthesia beyond the tertiary hospitals', speakers: ['Dr. Anthony Iraya'], kind: 'talk' }],
     },
@@ -329,7 +329,7 @@ const PROGRAM = {
     { type: 'break', s: '13:15', e: '14:15', title: 'Lunch', icon: 'fa-utensils' },
 
     {
-      type: 'plenary', s: '14:15', e: '15:40', room: 'Baraza',
+      type: 'plenary', s: '14:15', e: '15:40', room: 'Johari',
       title: 'Panel Discussions', track: 'Panel Discussions',
       sessions: [
         { s: '14:15', e: '15:00', title: 'Medical-legal challenges in anaesthesia practice', speakers: ['Advocate Roy Tollo', 'Advocate Naomi Kinuva', 'Dr. Mark Gacii'], kind: 'panel' },
