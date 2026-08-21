@@ -267,7 +267,7 @@ const PROGRAM = {
           sessions: [
             { s: '08:30', e: '09:00', title: 'Role of simulation in crisis management: preparing teams before patients need them', speakers: ['Dr. Cynthia Achola'], kind: 'talk' },
             { s: '09:00', e: '09:30', title: 'Leadership and decision-making in crisis management: the role of the anaesthesiologist', speakers: ['Dr. Rachael Kimani'], kind: 'talk' },
-            { s: '09:30', e: '10:00', title: 'Beyond the golden hour: the critical role of the anaesthesiologist in pre-hospital care and aeromedical transport', speakers: ['Dr. Joseph Lelo'], kind: 'talk' },
+            { s: '09:30', e: '10:00', title: 'Bleeding, hypoxia and AKI', speakers: ['Dr. Caroline Jeptoo'], kind: 'talk' },
             { s: '10:00', e: '10:10', title: 'Discussion', speakers: [], kind: 'discussion' },
           ],
         },
@@ -318,7 +318,7 @@ const PROGRAM = {
           chairs: ['Dr. Fiona-Hope Mtula', 'Dr. Bancy Njoki'],
           sessions: [
             { s: '12:00', e: '12:20', title: 'Perioperative Haemodynamic Optimization', speakers: ['Dr. Cornell Sendagire'], kind: 'talk' },
-            { s: '12:20', e: '12:40', title: 'Bleeding, hypoxia and AKI', speakers: ['Dr. Caroline Jeptoo'], kind: 'talk' },
+            { s: '12:20', e: '12:40', title: 'Beyond the golden hour: the critical role of the anaesthesiologist in pre-hospital care and aeromedical transport', speakers: ['Dr. Joseph Lelo'], kind: 'talk' },
             { s: '12:40', e: '13:00', title: 'Beyond tick boxes: modernizing the WHO Surgical Safety Checklist — from compliance to culture in perioperative safety', speakers: ['Dr. Betelhem Hailu Belda'], kind: 'talk' },
             { s: '13:00', e: '13:15', title: 'Discussion', speakers: [], kind: 'discussion' },
           ],
